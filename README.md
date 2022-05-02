@@ -8,7 +8,7 @@
 :x: : Abandon<br/> -->
 
 - :soon: HomeScreen
-- :soon: FoodDetialScreen
+- :soon: FoodDetailScreen
 - :soon: CartScreen
 - :soon: PaymentScreen
 - :soon: OrderScreen
