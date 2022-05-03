@@ -12,28 +12,19 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isHideAppBar = true;
-
     return Scaffold(
-      appBar: isHideAppBar
-          ? null
-          : AppBar(
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-            ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-            child: Column(
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            HomeCover(),
-            Container(
-              color: Colors.grey.shade200,
-              height: 10,
-            ),
-            HomeItem(),
-          ],
-        )),
-      ),
+      body: SingleChildScrollView(
+          child: Column(
+        // ignore: prefer_const_literals_to_create_immutables
+        children: [
+          HomeCover(),
+          Container(
+            color: Colors.grey.shade200,
+            height: 10,
+          ),
+          HomeItem(),
+        ],
+      )),
     );
   }
 }

@@ -73,7 +73,7 @@ class HomeCover extends StatelessWidget {
                     style: textStyleTitle,
                   ),
                   Spacer(),
-                  Icon(Icons.share),
+                  Icon(Icons.info_outline),
                 ],
               ),
             ),
