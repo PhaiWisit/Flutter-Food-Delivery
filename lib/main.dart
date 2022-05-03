@@ -4,11 +4,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_pos_kawpun/providers/food_menu_provider.dart';
+import 'package:flutter_pos_kawpun/providers/food_provider.dart';
 import 'package:flutter_pos_kawpun/screens/home/home_screen.dart';
+import 'package:flutter_pos_kawpun/screens/merchant/merchant_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'models/food_menu_model.dart';
+import 'models/food_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => FoodMenuProvider()),
+        ChangeNotifierProvider(create: (context) => FoodProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         home: HomeScreen(),
         // home: TestGetListMenu(),
+        routes: {
+          MerchantScreen.routeName: (context) => MerchantScreen(),
+        },
       ),
     );
   }
@@ -49,7 +53,7 @@ class TestGetListMenu extends StatefulWidget {
 
 class _TestGetListMenuState extends State<TestGetListMenu> {
   List _items = [];
-  late List<FoodMenuModel> foodMenuModel;
+  late List<FoodModel> foodMenuModel;
 
   Future<void> readJson() async {
     final String response =

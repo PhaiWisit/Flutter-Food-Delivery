@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_kawpun/screens/home/homewidget/home_item.dart';
-import 'package:flutter_pos_kawpun/utils/textStyle.dart';
+import 'package:flutter_pos_kawpun/utils/text_style.dart';
 
 import 'homewidget/home_cover.dart';
 

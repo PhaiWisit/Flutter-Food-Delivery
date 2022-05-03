@@ -4,15 +4,14 @@
 
 import 'dart:convert';
 
-List<FoodMenuModel> foodMenuModelFromJson(String str) =>
-    List<FoodMenuModel>.from(
-        json.decode(str).map((x) => FoodMenuModel.fromJson(x)));
+List<FoodModel> foodMenuModelFromJson(String str) =>
+    List<FoodModel>.from(json.decode(str).map((x) => FoodModel.fromJson(x)));
 
-String foodMenuModelToJson(List<FoodMenuModel> data) =>
+String foodMenuModelToJson(List<FoodModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class FoodMenuModel {
-  FoodMenuModel({
+class FoodModel {
+  FoodModel({
     required this.foodId,
     required this.foodName,
     required this.foodType,
@@ -34,7 +33,7 @@ class FoodMenuModel {
   String foodPrice;
   String foodImageUrl;
 
-  factory FoodMenuModel.fromJson(Map<String, dynamic> json) => FoodMenuModel(
+  factory FoodModel.fromJson(Map<String, dynamic> json) => FoodModel(
         foodId: json["food_id"],
         foodName: json["food_name"],
         foodType: json["food_type"],
