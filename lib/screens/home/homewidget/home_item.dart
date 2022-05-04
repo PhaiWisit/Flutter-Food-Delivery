@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_kawpun/models/food_model.dart';
 import 'package:flutter_pos_kawpun/providers/food_provider.dart';
+import 'package:flutter_pos_kawpun/screens/food/food_screen.dart';
 import 'package:flutter_pos_kawpun/utils/app_log.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +16,8 @@ class HomeItem extends StatefulWidget {
 class _HomeItemState extends State<HomeItem> {
   @override
   Widget build(BuildContext context) {
-    FoodProvider foodMenu = Provider.of<FoodProvider>(context, listen: true);
+    // FoodProvider foodMenu = Provider.of<FoodProvider>(context, listen: false);
+
     return Padding(
       padding: const EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 0),
       child: Column(
@@ -32,108 +32,115 @@ class _HomeItemState extends State<HomeItem> {
               children: [
                 Text('รายการอาหาร'),
                 Spacer(),
-                _buildPopupMenu(context, foodMenu),
+                Consumer<FoodProvider>(
+                  builder: ((context, foodMenu, child) {
+                    return _buildPopupMenu(context, foodMenu);
+                  }),
+                ),
               ],
             ),
           ),
           Divider(),
-          foodMenu.isLoading
-              ? Text('loading...')
-              : Builder(builder: ((context) {
-                  if (foodMenu.filterStatus[FilterOption.Onedish] == true) {
-                    return Column(
-                      children: [
-                        _buildLable(
-                            title: 'อาหารจานเดียว',
-                            foodMenu: foodMenu,
-                            filterOption: FilterOption.Dishes,
-                            canExpand: false),
-                        _buildListMenu(foodMenu.foodMenu1)
-                      ],
-                    );
-                  } else if (foodMenu.filterStatus[FilterOption.Dishes] ==
-                      true) {
-                    return Column(
-                      children: [
-                        _buildLable(
-                            title: 'เป็นกับข้าว',
-                            foodMenu: foodMenu,
-                            filterOption: FilterOption.Dishes,
-                            canExpand: false),
-                        _buildListMenu(foodMenu.foodMenu2)
-                      ],
-                    );
-                  } else if (foodMenu.filterStatus[FilterOption.Noodle] ==
-                      true) {
-                    return Column(
-                      children: [
-                        _buildLable(
-                            title: 'เมนูเส้น',
-                            foodMenu: foodMenu,
-                            filterOption: FilterOption.Noodle,
-                            canExpand: false),
-                        _buildListMenu(foodMenu.foodMenu3)
-                      ],
-                    );
-                  } else if (foodMenu.filterStatus[FilterOption.Yum] == true) {
-                    return Column(
-                      children: [
-                        _buildLable(
-                            title: 'เมนูยำ',
-                            foodMenu: foodMenu,
-                            filterOption: FilterOption.Yum,
-                            canExpand: false),
-                        _buildListMenu(foodMenu.foodMenu4)
-                      ],
-                    );
-                  } else if (foodMenu.filterStatus[FilterOption.Favorites] ==
-                      true) {
-                    return Column(
-                      children: [Text('favorite')],
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        _buildLable(
-                            title: 'อาหารจานเดียว',
-                            foodMenu: foodMenu,
-                            filterOption: FilterOption.Onedish,
-                            canExpand: true),
-                        foodMenu.expandStatus[FilterOption.Onedish] == true
-                            ? _buildListMenu(foodMenu.foodMenu1)
-                            : SizedBox(),
-                        Divider(),
-                        _buildLable(
-                            title: 'เป็นกับข้าว',
-                            foodMenu: foodMenu,
-                            filterOption: FilterOption.Dishes,
-                            canExpand: true),
-                        foodMenu.expandStatus[FilterOption.Dishes] == true
-                            ? _buildListMenu(foodMenu.foodMenu2)
-                            : SizedBox(),
-                        Divider(),
-                        _buildLable(
-                            title: 'เมนูเส้น',
-                            foodMenu: foodMenu,
-                            filterOption: FilterOption.Noodle,
-                            canExpand: true),
-                        foodMenu.expandStatus[FilterOption.Noodle] == true
-                            ? _buildListMenu(foodMenu.foodMenu3)
-                            : SizedBox(),
-                        Divider(),
-                        _buildLable(
-                            title: 'เมนูยำ',
-                            foodMenu: foodMenu,
-                            filterOption: FilterOption.Yum,
-                            canExpand: true),
-                        foodMenu.expandStatus[FilterOption.Yum] == true
-                            ? _buildListMenu(foodMenu.foodMenu4)
-                            : SizedBox(),
-                        Divider(),
-                      ],
-                    );
-                  }
-                }))
+          Consumer<FoodProvider>(builder: (context, foodMenu, child) {
+            return foodMenu.isLoading
+                ? Text('loading...')
+                : Consumer<FoodProvider>(builder: ((context, foodMenu, child) {
+                    if (foodMenu.filterStatus[FilterOption.Onedish] == true) {
+                      return Column(
+                        children: [
+                          _buildLable(
+                              title: 'อาหารจานเดียว',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Dishes,
+                              canExpand: false),
+                          _buildListMenu(foodMenu.foodMenu1)
+                        ],
+                      );
+                    } else if (foodMenu.filterStatus[FilterOption.Dishes] ==
+                        true) {
+                      return Column(
+                        children: [
+                          _buildLable(
+                              title: 'เป็นกับข้าว',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Dishes,
+                              canExpand: false),
+                          _buildListMenu(foodMenu.foodMenu2)
+                        ],
+                      );
+                    } else if (foodMenu.filterStatus[FilterOption.Noodle] ==
+                        true) {
+                      return Column(
+                        children: [
+                          _buildLable(
+                              title: 'เมนูเส้น',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Noodle,
+                              canExpand: false),
+                          _buildListMenu(foodMenu.foodMenu3)
+                        ],
+                      );
+                    } else if (foodMenu.filterStatus[FilterOption.Yum] ==
+                        true) {
+                      return Column(
+                        children: [
+                          _buildLable(
+                              title: 'เมนูยำ',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Yum,
+                              canExpand: false),
+                          _buildListMenu(foodMenu.foodMenu4)
+                        ],
+                      );
+                    } else if (foodMenu.filterStatus[FilterOption.Favorites] ==
+                        true) {
+                      return Column(
+                        children: [Text('favorite')],
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          _buildLable(
+                              title: 'อาหารจานเดียว',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Onedish,
+                              canExpand: true),
+                          foodMenu.expandStatus[FilterOption.Onedish] == true
+                              ? _buildListMenu(foodMenu.foodMenu1)
+                              : SizedBox(),
+                          Divider(),
+                          _buildLable(
+                              title: 'เป็นกับข้าว',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Dishes,
+                              canExpand: true),
+                          foodMenu.expandStatus[FilterOption.Dishes] == true
+                              ? _buildListMenu(foodMenu.foodMenu2)
+                              : SizedBox(),
+                          Divider(),
+                          _buildLable(
+                              title: 'เมนูเส้น',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Noodle,
+                              canExpand: true),
+                          foodMenu.expandStatus[FilterOption.Noodle] == true
+                              ? _buildListMenu(foodMenu.foodMenu3)
+                              : SizedBox(),
+                          Divider(),
+                          _buildLable(
+                              title: 'เมนูยำ',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Yum,
+                              canExpand: true),
+                          foodMenu.expandStatus[FilterOption.Yum] == true
+                              ? _buildListMenu(foodMenu.foodMenu4)
+                              : SizedBox(),
+                          Divider(),
+                        ],
+                      );
+                    }
+                  }));
+          })
         ],
       ),
     );
@@ -206,28 +213,33 @@ class _HomeItemState extends State<HomeItem> {
         shrinkWrap: true,
         itemCount: foodMenuType.length,
         itemBuilder: (context, index) {
-          return InkWell(
-            onTap: (() {
-              AppLog.tap('go to food detail');
-            }),
-            child: ListTile(
-                leading: Container(
-                  width: 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                          image: NetworkImage(foodMenuType[index].foodImageUrl),
-                          fit: BoxFit.cover)),
-                ),
-                title: Text(foodMenuType[index].foodName),
-                subtitle: Text('เริ่มต้น ${foodMenuType[index].foodPrice} บาท'),
-                trailing: IconButton(
-                  icon: Icon(Icons.favorite_border_sharp),
-                  onPressed: () {
-                    AppLog.tap('set favorite this menu');
-                  },
-                )),
-          );
+          return Consumer<FoodProvider>(builder: (context, foodMenu, child) {
+            return InkWell(
+              onTap: (() {
+                foodMenu.setSelectFood(foodMenuType[index]);
+                Navigator.of(context).pushNamed(FoodScreen.routeName);
+              }),
+              child: ListTile(
+                  leading: Container(
+                    width: 100,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            image:
+                                NetworkImage(foodMenuType[index].foodImageUrl),
+                            fit: BoxFit.cover)),
+                  ),
+                  title: Text(foodMenuType[index].foodName),
+                  subtitle:
+                      Text('เริ่มต้น ${foodMenuType[index].foodPrice} บาท'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.favorite_border_sharp),
+                    onPressed: () {
+                      AppLog.tap('set favorite this menu');
+                    },
+                  )),
+            );
+          });
         },
       ),
     );

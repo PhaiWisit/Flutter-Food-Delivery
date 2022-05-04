@@ -11,6 +11,7 @@ class FoodProvider with ChangeNotifier {
   List<FoodModel> _foodMenu2 = [];
   List<FoodModel> _foodMenu3 = [];
   List<FoodModel> _foodMenu4 = [];
+  FoodModel? _selectFood;
 
   Map<FilterOption, bool> _filterStatus = {
     FilterOption.All: false,
@@ -21,11 +22,11 @@ class FoodProvider with ChangeNotifier {
     FilterOption.Yum: false
   };
 
-  Map<FilterOption, bool> _expandStatus = {
-    FilterOption.Onedish: false,
-    FilterOption.Dishes: false,
-    FilterOption.Noodle: false,
-    FilterOption.Yum: false
+  final Map<FilterOption, bool> _expandStatus = {
+    FilterOption.Onedish: true,
+    FilterOption.Dishes: true,
+    FilterOption.Noodle: true,
+    FilterOption.Yum: true
   };
 
   bool get isLoading => _isLoading;
@@ -34,18 +35,16 @@ class FoodProvider with ChangeNotifier {
   List<FoodModel> get foodMenu2 => _foodMenu2;
   List<FoodModel> get foodMenu3 => _foodMenu3;
   List<FoodModel> get foodMenu4 => _foodMenu4;
+  FoodModel get selectFood => _selectFood!;
 
   Map<FilterOption, bool> get filterStatus => _filterStatus;
   Map<FilterOption, bool> get expandStatus => _expandStatus;
 
-  setExpandStatus(FilterOption expand, bool status) {
-    // _expandStatus = {
-    //   FilterOption.Onedish: false,
-    //   FilterOption.Dishes: false,
-    //   FilterOption.Noodle: false,
-    //   FilterOption.Yum: false
-    // };
+  void setSelectFood(FoodModel foodModel) {
+    _selectFood = foodModel;
+  }
 
+  void setExpandStatus(FilterOption expand, bool status) {
     _expandStatus[expand] = status;
     notifyListeners();
   }

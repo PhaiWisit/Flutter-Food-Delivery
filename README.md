@@ -7,7 +7,7 @@
 :soon: : Plan<br/>
 :x: : Abandon<br/> -->
 
-- :soon: HomeScreen
+- :white_check_mark: HomeScreen (without favorite function)
 - :soon: FoodDetailScreen
 - :soon: CartScreen
 - :soon: PaymentScreen
@@ -16,8 +16,12 @@
 ### Screenshort
 <br/>
 
-- HomeScreen (example) <br/>
+- HomeScreen <br/>
 <img src="screenshots/flutter_01.png" width="350">
+<br/><br/>
+
+- FoodDetailScreen <br/>
+<img src="screenshots/flutter_02.png" width="350">
 <br/><br/>
 
 

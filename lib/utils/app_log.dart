@@ -28,4 +28,8 @@ class AppLog {
   static error(String message) {
     _logRed('Error : ${message}');
   }
+
+  static info(String message) {
+    _logBlue('Information : ${message}');
+  }
 }

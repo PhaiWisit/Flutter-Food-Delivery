@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pos_kawpun/providers/food_provider.dart';
+import 'package:flutter_pos_kawpun/screens/food/food_screen.dart';
 import 'package:flutter_pos_kawpun/screens/home/home_screen.dart';
 import 'package:flutter_pos_kawpun/screens/merchant/merchant_screen.dart';
 import 'package:provider/provider.dart';
@@ -30,12 +31,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Kawpun Demo',
         theme: ThemeData(
-          primarySwatch: Colors.amber,
+          primarySwatch: Colors.green,
         ),
         home: HomeScreen(),
         // home: TestGetListMenu(),
         routes: {
           MerchantScreen.routeName: (context) => MerchantScreen(),
+          FoodScreen.routeName: (context) => FoodScreen(),
         },
       ),
     );
