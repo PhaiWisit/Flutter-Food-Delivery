@@ -1,19 +1,33 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
+import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pos_kawpun/providers/food_provider.dart';
 import 'package:flutter_pos_kawpun/screens/food/food_screen.dart';
 import 'package:flutter_pos_kawpun/screens/home/home_screen.dart';
 import 'package:flutter_pos_kawpun/screens/merchant/merchant_screen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'models/food_model.dart';
 
 void main() {
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
   runApp(MyApp());
+}
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
 
 class MyApp extends StatelessWidget {
@@ -28,13 +42,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => FoodProvider()),
       ],
       child: MaterialApp(
+        scrollBehavior: AppScrollBehavior(),
         debugShowCheckedModeBanner: false,
         title: 'Kawpun Demo',
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
         home: HomeScreen(),
-        // home: TestGetListMenu(),
         routes: {
           MerchantScreen.routeName: (context) => MerchantScreen(),
           FoodScreen.routeName: (context) => FoodScreen(),

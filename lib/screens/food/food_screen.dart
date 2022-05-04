@@ -9,6 +9,7 @@ import 'package:flutter_pos_kawpun/screens/food/foodwidget/food_option.dart';
 import 'package:flutter_pos_kawpun/screens/food/foodwidget/food_extra.dart';
 import 'package:flutter_pos_kawpun/utils/app_log.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
+import 'package:flutter_pos_kawpun/utils/web_demo_view.dart';
 import 'package:provider/provider.dart';
 
 import 'foodwidget/food_meat.dart';
@@ -30,57 +31,63 @@ class FoodScreen extends StatelessWidget {
 
     var _foodMeatSelected = foodMeat;
 
-    if (foodNoodle.isEmpty) {
-      AppLog.error('foodNoodle empty');
-    }
-
-    return Scaffold(
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-          _buildFoodCover(selectedFood, context),
-          _buildFoodName(selectedFood),
-          Divider(),
-          foodMeat.isNotEmpty ? FoodMeatItem() : SizedBox(),
-          foodOption.isNotEmpty ? FoodOptionItem() : SizedBox(),
-          foodExtra.isNotEmpty ? FoodExtraItem() : SizedBox(),
-          foodNoodle.isNotEmpty ? FoodNoodleItem() : SizedBox(),
-          FoodMoreDetail(),
-          SizedBox(height: 20),
-          _buildButtonAddToCart(context),
-          SizedBox(height: 20),
-        ],
-      )),
+    return WebDemoView(
+      child: Scaffold(
+        body: SingleChildScrollView(
+            child: Column(
+          children: [
+            _buildFoodCover(selectedFood, context),
+            _buildFoodName(selectedFood),
+            Divider(),
+            foodMeat.isNotEmpty ? FoodMeatItem() : SizedBox(),
+            foodOption.isNotEmpty ? FoodOptionItem() : SizedBox(),
+            foodExtra.isNotEmpty ? FoodExtraItem() : SizedBox(),
+            foodNoodle.isNotEmpty ? FoodNoodleItem() : SizedBox(),
+            FoodMoreDetail(),
+            SizedBox(height: 20),
+            _buildButtonAddToBasket(context),
+            SizedBox(height: 20),
+          ],
+        )),
+      ),
     );
   }
 
-  Widget _buildButtonAddToCart(BuildContext context) {
-    return InkWell(
-      onTap: (() {
-        AppLog.tap('add to cart');
-      }),
-      child: Container(
-          width: MediaQuery.of(context).size.width * 0.5,
-          decoration: BoxDecoration(
-              color: Colors.green, borderRadius: BorderRadius.circular(20)),
-          height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                child: Icon(
-                  Icons.add_shopping_cart,
-                  color: Colors.white,
-                  size: 25,
-                ),
-              ),
-              Text('เพิ่มในตระกร้า',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ))
-            ],
-          )),
+  Widget _buildButtonAddToBasket(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.green, borderRadius: BorderRadius.circular(20)),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          onTap: (() {
+            AppLog.tap('add to cart');
+          }),
+          child: Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Icon(
+                      Icons.shopping_basket,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                  Text('เพิ่มในตระกร้า',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ))
+                ],
+              )),
+        ),
+      ),
     );
   }
 

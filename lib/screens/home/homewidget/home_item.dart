@@ -30,7 +30,24 @@ class _HomeItemState extends State<HomeItem> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                Text('รายการอาหาร'),
+                Consumer<FoodProvider>(builder: ((context, foodMenu, child) {
+                  if (foodMenu.filterStatus[FilterOption.Favorites] == true) {
+                    return Text('รายการโปรด');
+                  }
+                  if (foodMenu.filterStatus[FilterOption.Dishes] == true) {
+                    return Text('เป็นกับข้าว');
+                  }
+                  if (foodMenu.filterStatus[FilterOption.Onedish] == true) {
+                    return Text('อาหารจานเดียว');
+                  }
+                  if (foodMenu.filterStatus[FilterOption.Noodle] == true) {
+                    return Text('เมนูเส้น');
+                  }
+                  if (foodMenu.filterStatus[FilterOption.Yum] == true) {
+                    return Text('เมนูยำ');
+                  }
+                  return Text('รายการอาหารทั้งหมด');
+                })),
                 Spacer(),
                 Consumer<FoodProvider>(
                   builder: ((context, foodMenu, child) {
