@@ -5,6 +5,7 @@ import 'package:flutter_pos_kawpun/models/food_model.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/basket_provider.dart';
 import '../../../providers/food_provider.dart';
 
 class FoodNoodleItem extends StatefulWidget {
@@ -68,6 +69,8 @@ class _FoodNoodleItemState extends State<FoodNoodleItem> {
   }
 
   List<Widget> _createRadioListFoodOption() {
+    var basket = Provider.of<BasketProvider>(context, listen: true);
+    basket.setFoodNoodle(selectedfoodNoodle);
     List<Widget> widgets = [];
     for (String foodNoodle in foodNoodles) {
       widgets.add(
@@ -83,8 +86,9 @@ class _FoodNoodleItemState extends State<FoodNoodleItem> {
                 value: foodNoodle,
                 groupValue: selectedfoodNoodle,
                 title: Text(foodNoodle),
-                onChanged: (currentUser) {
-                  setSelectedFoodNoodle(currentUser as dynamic);
+                onChanged: (current) {
+                  setSelectedFoodNoodle(current as dynamic);
+                  basket.setFoodNoodle(current);
                 },
                 selected: selectedfoodNoodle == foodNoodle,
                 activeColor: Colors.green,

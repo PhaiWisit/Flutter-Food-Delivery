@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/basket_provider.dart';
 
 class FoodMoreDetail extends StatelessWidget {
   const FoodMoreDetail({Key? key}) : super(key: key);
@@ -18,14 +21,16 @@ class FoodMoreDetail extends StatelessWidget {
               ),
             ],
           ),
-          _buildTextField(),
+          _buildTextField(context),
           Divider(),
         ],
       ),
     );
   }
 
-  Widget _buildTextField() {
+  Widget _buildTextField(BuildContext context) {
+    var basket = Provider.of<BasketProvider>(context, listen: true);
+    // basket.setFoodDetail('');
     final maxLines = 3;
 
     return Container(
@@ -33,6 +38,17 @@ class FoodMoreDetail extends StatelessWidget {
       height: maxLines * 24.0,
       child: TextField(
         maxLines: maxLines,
+        textInputAction: TextInputAction.go,
+        onSubmitted: (value) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        onChanged: (value) {
+          if (value.isEmpty) {
+            basket.setFoodDetail('');
+          } else {
+            basket.setFoodDetail(value);
+          }
+        },
         decoration: InputDecoration(
           hintText: "เช่น ไม่เผ็ด ไม่ใส่กะเพรา",
           fillColor: Color.fromARGB(255, 235, 235, 235),

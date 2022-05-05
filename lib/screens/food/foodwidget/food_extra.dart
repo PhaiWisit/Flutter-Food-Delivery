@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_kawpun/models/food_model.dart';
+import 'package:flutter_pos_kawpun/utils/app_log.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/basket_provider.dart';
 import '../../../providers/food_provider.dart';
 
 class FoodExtraItem extends StatefulWidget {
@@ -16,6 +18,7 @@ class FoodExtraItem extends StatefulWidget {
 
 class _FoodExtraItemState extends State<FoodExtraItem> {
   late FoodModel selectedFood;
+  // late BasketProvider basket;
 
   late List<dynamic> foodExtras;
   late dynamic selectedfoodExtra = foodExtras.first;
@@ -66,6 +69,8 @@ class _FoodExtraItemState extends State<FoodExtraItem> {
   }
 
   List<Widget> _createRadioListFoodOption() {
+    BasketProvider basket = Provider.of<BasketProvider>(context, listen: false);
+
     List<Widget> widgets = [];
     for (String foodExtra in foodExtras) {
       widgets.add(
@@ -81,8 +86,15 @@ class _FoodExtraItemState extends State<FoodExtraItem> {
                 value: foodExtra,
                 groupValue: selectedfoodExtra,
                 title: foodExtra == 'true' ? Text('พิเศษ') : Text('ธรรมดา'),
-                onChanged: (currentUser) {
-                  setSelectedFoodExtra(currentUser as dynamic);
+                onChanged: (current) {
+                  setSelectedFoodExtra(current as dynamic);
+                  if (foodExtra == 'true') {
+                    basket.setFoodExtra('(พิเศษ)');
+                    basket.setIsExtra(true);
+                  } else {
+                    basket.setFoodExtra('');
+                    basket.setIsExtra(false);
+                  }
                 },
                 selected: selectedfoodExtra == foodExtra,
                 activeColor: Colors.green,

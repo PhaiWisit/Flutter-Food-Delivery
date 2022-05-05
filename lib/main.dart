@@ -6,7 +6,9 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pos_kawpun/providers/basket_provider.dart';
 import 'package:flutter_pos_kawpun/providers/food_provider.dart';
+import 'package:flutter_pos_kawpun/screens/basket/basket_screen.dart';
 import 'package:flutter_pos_kawpun/screens/food/food_screen.dart';
 import 'package:flutter_pos_kawpun/screens/home/home_screen.dart';
 import 'package:flutter_pos_kawpun/screens/merchant/merchant_screen.dart';
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => FoodProvider()),
+        ChangeNotifierProvider(create: (context) => BasketProvider()),
       ],
       child: MaterialApp(
         scrollBehavior: AppScrollBehavior(),
@@ -52,6 +55,7 @@ class MyApp extends StatelessWidget {
         routes: {
           MerchantScreen.routeName: (context) => MerchantScreen(),
           FoodScreen.routeName: (context) => FoodScreen(),
+          BasketScreen.routeName: (context) => BasketScreen(),
         },
       ),
     );

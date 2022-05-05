@@ -1,10 +1,14 @@
 // ignore_for_file: dead_code
 
 import 'package:flutter/material.dart';
+import 'package:flutter_pos_kawpun/screens/basket/basket_screen.dart';
+import 'package:flutter_pos_kawpun/screens/home/homewidget/home_badge.dart';
 import 'package:flutter_pos_kawpun/screens/home/homewidget/home_item.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
 import 'package:flutter_pos_kawpun/utils/web_demo_view.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/basket_provider.dart';
 import 'homewidget/home_cover.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,6 +16,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var basket = Provider.of<BasketProvider>(context, listen: true);
     bool isHideAppBar = true;
     return WebDemoView(
       child: Scaffold(
@@ -27,6 +32,27 @@ class HomeScreen extends StatelessWidget {
             HomeItem(),
           ],
         )),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton: Container(
+          // color: Colors.blue,
+          width: 60,
+          height: 60,
+          child: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(BasketScreen.routeName);
+              },
+              backgroundColor: Colors.amber.shade900,
+              child: Container(
+                width: 50,
+                height: 50,
+                // color: Colors.red,
+                child: HomeBadge(
+                    child: Icon(
+                      Icons.shopping_basket_outlined,
+                    ),
+                    value: basket.basketCount.toString()),
+              )),
+        ),
       ),
     );
   }

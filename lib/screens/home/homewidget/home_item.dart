@@ -6,6 +6,8 @@ import 'package:flutter_pos_kawpun/utils/app_log.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/basket_provider.dart';
+
 class HomeItem extends StatefulWidget {
   const HomeItem({Key? key}) : super(key: key);
 
@@ -234,6 +236,10 @@ class _HomeItemState extends State<HomeItem> {
             return InkWell(
               onTap: (() {
                 foodMenu.setSelectFood(foodMenuType[index]);
+                var basket =
+                    Provider.of<BasketProvider>(context, listen: false);
+                basket.setFoodPriceStart(
+                    double.parse(foodMenu.selectFood.foodPrice));
                 Navigator.of(context).pushNamed(FoodScreen.routeName);
               }),
               child: ListTile(
