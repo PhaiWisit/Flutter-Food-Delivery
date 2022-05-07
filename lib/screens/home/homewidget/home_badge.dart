@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pos_kawpun/utils/text_style.dart';
 
 class HomeBadge extends StatelessWidget {
   const HomeBadge({
@@ -19,26 +20,20 @@ class HomeBadge extends StatelessWidget {
       children: [
         child,
         Positioned(
-          right: 8,
+          right: 6,
           top: 8,
           child: Container(
-            padding: EdgeInsets.all(2.0),
-            // color: Theme.of(context).accentColor,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: color ?? Theme.of(context).accentColor,
+              color: color ?? Theme.of(context).primaryColor,
             ),
             constraints: BoxConstraints(
               minWidth: 16,
               minHeight: 16,
             ),
-            child: Text(
-              value,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 10,
-              ),
-            ),
+            child: Center(
+                child:
+                    Text(value, textAlign: TextAlign.center, style: textBadge)),
           ),
         )
       ],

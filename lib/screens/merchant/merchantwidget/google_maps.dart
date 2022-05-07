@@ -1,15 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapSample extends StatefulWidget {
+  const MapSample({Key? key}) : super(key: key);
+
   @override
   State<MapSample> createState() => MapSampleState();
 }
 
 class MapSampleState extends State<MapSample> {
-  final Completer<GoogleMapController> _controller = Completer();
+  // final Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(14.025095, 100.655748),
@@ -17,7 +17,7 @@ class MapSampleState extends State<MapSample> {
   );
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  LatLng _center = LatLng(14.025095, 100.655748);
+  // final LatLng _center = LatLng(14.025095, 100.655748);
 
   void _onMapCreated(GoogleMapController controller) {
     final marker = Marker(

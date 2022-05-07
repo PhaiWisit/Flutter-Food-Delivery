@@ -21,6 +21,7 @@ class FoodModel {
     required this.foodNoodles,
     required this.foodPrice,
     required this.foodImageUrl,
+    this.isFavorite = false,
   });
 
   String foodId;
@@ -32,6 +33,7 @@ class FoodModel {
   String foodNoodles;
   String foodPrice;
   String foodImageUrl;
+  bool isFavorite;
 
   factory FoodModel.fromJson(Map<String, dynamic> json) => FoodModel(
         foodId: json["food_id"],
@@ -65,7 +67,7 @@ class EnumValues<T> {
   EnumValues(this.map);
 
   Map<T, String> get reverse {
-    reverseMap ??= map.map((k, v) => new MapEntry(v, k));
+    reverseMap ??= map.map((k, v) => MapEntry(v, k));
     return reverseMap!;
   }
 }

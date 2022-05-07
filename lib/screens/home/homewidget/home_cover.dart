@@ -42,7 +42,7 @@ class HomeCover extends StatelessWidget {
               child: Center(
                   child: Text(
                 'ส่งฟรี ',
-                style: TextStyle(fontSize: 25, color: Colors.white),
+                style: textCover,
               )),
             ),
           ],
@@ -108,8 +108,7 @@ class HomeCover extends StatelessWidget {
                   Spacer(),
                   Text(
                     'ดูทั้งหมด >',
-                    style:
-                        TextStyle(color: Colors.amber.shade900, fontSize: 12),
+                    style: textStyleSmallAmber,
                   )
                 ],
               ),

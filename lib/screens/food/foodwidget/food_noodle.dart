@@ -85,7 +85,7 @@ class _FoodNoodleItemState extends State<FoodNoodleItem> {
                 contentPadding: EdgeInsets.all(0),
                 value: foodNoodle,
                 groupValue: selectedfoodNoodle,
-                title: Text(foodNoodle),
+                title: Text(foodNoodle, style: textStyleNormal),
                 onChanged: (current) {
                   setSelectedFoodNoodle(current as dynamic);
                   basket.setFoodNoodle(current);

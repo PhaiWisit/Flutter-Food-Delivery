@@ -1,11 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_kawpun/models/food_model.dart';
-import 'package:flutter_pos_kawpun/utils/app_log.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
 import 'package:provider/provider.dart';
-
 import '../../../providers/basket_provider.dart';
 import '../../../providers/food_provider.dart';
 
@@ -85,7 +82,9 @@ class _FoodExtraItemState extends State<FoodExtraItem> {
                 contentPadding: EdgeInsets.all(0),
                 value: foodExtra,
                 groupValue: selectedfoodExtra,
-                title: foodExtra == 'true' ? Text('พิเศษ') : Text('ธรรมดา'),
+                title: foodExtra == 'true'
+                    ? Text('พิเศษ', style: textStyleNormal)
+                    : Text('ธรรมดา', style: textStyleNormal),
                 onChanged: (current) {
                   setSelectedFoodExtra(current as dynamic);
                   if (foodExtra == 'true') {
@@ -100,7 +99,12 @@ class _FoodExtraItemState extends State<FoodExtraItem> {
                 activeColor: Colors.green,
               ),
             ),
-            foodExtra == 'true' ? Text('+10 บาท') : SizedBox(),
+            foodExtra == 'true'
+                ? Text(
+                    '+10 บาท',
+                    style: textStyleNormal,
+                  )
+                : SizedBox(),
           ],
         ),
       );

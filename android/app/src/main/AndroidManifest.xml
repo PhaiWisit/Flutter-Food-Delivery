@@ -5,8 +5,8 @@ package="com.example.flutter_pos_kawpun">
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     
    <application
-        android:label="flutter_pos_kawpun"
-        android:icon="@mipmap/ic_launcher">
+        android:label="ข้าวปุ้น โภชนา"
+        android:icon="@mipmap/launcher_icon">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="${mapsApiKey}"/>

@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: unused_field
 
+import 'package:flutter/material.dart';
+import 'package:flutter_pos_kawpun/services/send_order.dart';
+
+import '../services/api_status.dart';
 import '../utils/app_log.dart';
 
 class BasketItem {
@@ -24,8 +28,31 @@ class BasketItem {
   });
 }
 
+class TestData {
+  static final List<BasketItem> _listTest = [];
+
+  static List<BasketItem> get listTest {
+    for (int i = 0; i < 10; i++) {
+      _listTest.add(
+        BasketItem(
+            foodId: 0,
+            foodName: 'foodName',
+            foodPrice: 100,
+            foodMeat: 'foodMeat',
+            foodOption: 'foodOption',
+            foodExtra: 'foodExtra',
+            foodNoodle: 'foodNoodle',
+            foodDetail: ''),
+      );
+    }
+
+    return _listTest;
+  }
+}
+
 class BasketProvider with ChangeNotifier {
-  List<BasketItem> _basketItem = [];
+  // List<BasketItem> _basketItem = TestData.listTest; // Test
+  List<BasketItem> _basketItem = []; // Use
   int _basketCount = 0;
 
   int _foodId = 1;
@@ -40,6 +67,9 @@ class BasketProvider with ChangeNotifier {
   double _foodPriceStart = 0.0;
   int _optionCount = 0;
   bool _isExtra = false;
+  double _totalPrice = 0.0;
+  String _houseNumber = '';
+  bool _sendLoading = false;
 
   List<BasketItem> get basketItem => _basketItem;
   int get basketCount {
@@ -58,6 +88,16 @@ class BasketProvider with ChangeNotifier {
   double get foodPriceStart => _foodPrice;
   int get optionCount => _optionCount;
   bool get isExtra => _isExtra;
+  String get houseNumber => _houseNumber;
+  bool get sendLoading => _sendLoading;
+
+  double get totalPrice {
+    double total = 0.0;
+    for (int i = 0; i < basketItem.length; i++) {
+      total += basketItem[i].foodPrice;
+    }
+    return total;
+  }
 
   double get foodPrice {
     if (isExtra) {
@@ -67,6 +107,42 @@ class BasketProvider with ChangeNotifier {
     }
 
     return _foodPrice;
+  }
+
+  void sendOrder(String orderText, BuildContext context) async {
+    setSendLoading(true);
+    var response = await SendOrder.sendOrder(orderText);
+    if (response is Success) {
+      const snackBar = SnackBar(
+        content: Text('ร้านค้าได้รับคำสั่งซื้อของคุณแล้ว'),
+        duration: Duration(milliseconds: 1500),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      resetBasketItem();
+      Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+    }
+    if (response is Failure) {
+      var snackBar = SnackBar(
+        content: Text('เกิดข้อผิดพลาด  ${response.errorResponse.toString()}'),
+        duration: Duration(milliseconds: 1500),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    setSendLoading(false);
+  }
+
+  void setSendLoading(bool sendLoading) {
+    _sendLoading = sendLoading;
+    notifyListeners();
+  }
+
+  void setHouseNumber(String houseNumber) {
+    _houseNumber = houseNumber;
+  }
+
+  void removeItem(int index) {
+    _basketItem.removeAt(index);
+    notifyListeners();
   }
 
   void setIsExtra(bool isExtra) {
@@ -139,5 +215,23 @@ class BasketProvider with ChangeNotifier {
     _optionCount = 0;
     _isExtra = false;
     _foodPriceStart = 0.0;
+  }
+
+  void resetBasketItem() {
+    _basketItem = [];
+    _basketCount = 0;
+    _foodId = 1;
+    _foodName = '';
+    _foodPrice = 0.0;
+    _foodMeat = '';
+    _foodOption = '';
+    _foodExtra = '';
+    _foodNoodle = '';
+    _foodDetail = '';
+    _foodPriceStart = 0.0;
+    _optionCount = 0;
+    _isExtra = false;
+    _totalPrice = 0.0;
+    _houseNumber = '';
   }
 }

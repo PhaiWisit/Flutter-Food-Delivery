@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_kawpun/models/food_model.dart';
 import 'package:flutter_pos_kawpun/providers/basket_provider.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_pos_kawpun/screens/food/foodwidget/food_noodle.dart';
 import 'package:flutter_pos_kawpun/screens/food/foodwidget/food_option.dart';
 import 'package:flutter_pos_kawpun/screens/food/foodwidget/food_extra.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
-import 'package:flutter_pos_kawpun/utils/web_demo_view.dart';
 import 'package:provider/provider.dart';
 
 import 'foodwidget/food_meat.dart';
@@ -30,35 +28,33 @@ class FoodScreen extends StatelessWidget {
     List<dynamic> foodExtra = jsonDecode(selectedFood.foodExtra);
     List<dynamic> foodNoodle = jsonDecode(selectedFood.foodNoodles);
 
-    var _foodMeatSelected = foodMeat;
+    // var _foodMeatSelected = foodMeat;
 
-    return WebDemoView(
-      child: Scaffold(
-        body: SingleChildScrollView(
-            child: Column(
+    return Scaffold(
+      body: SingleChildScrollView(
+          child: Column(
+        children: [
+          _buildFoodCover(selectedFood, context),
+          _buildFoodName(selectedFood),
+          Divider(),
+          foodMeat.isNotEmpty ? FoodMeatItem() : SizedBox(),
+          foodOption.isNotEmpty ? FoodOptionItem() : SizedBox(),
+          foodExtra.isNotEmpty ? FoodExtraItem() : SizedBox(),
+          foodNoodle.isNotEmpty ? FoodNoodleItem() : SizedBox(),
+          FoodMoreDetail(),
+          SizedBox(height: 70),
+        ],
+      )),
+      bottomSheet: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        color: Colors.transparent,
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildFoodCover(selectedFood, context),
-            _buildFoodName(selectedFood),
-            Divider(),
-            foodMeat.isNotEmpty ? FoodMeatItem() : SizedBox(),
-            foodOption.isNotEmpty ? FoodOptionItem() : SizedBox(),
-            foodExtra.isNotEmpty ? FoodExtraItem() : SizedBox(),
-            foodNoodle.isNotEmpty ? FoodNoodleItem() : SizedBox(),
-            FoodMoreDetail(),
-            SizedBox(height: 70),
+            _buildButtonBasket(context),
+            _buildButtonAddToBasket(context),
           ],
-        )),
-        bottomSheet: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          color: Colors.transparent,
-          height: 70,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildButtonBasket(context),
-              _buildButtonAddToBasket(context),
-            ],
-          ),
         ),
       ),
     );
@@ -82,6 +78,7 @@ class FoodScreen extends StatelessWidget {
           child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               width: MediaQuery.of(context).size.width * 0.25,
+              // width: 100,
               height: 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,9 +105,10 @@ class FoodScreen extends StatelessWidget {
   Widget _buildButtonAddToBasket(BuildContext context) {
     FoodProvider food = Provider.of<FoodProvider>(context, listen: false);
     FoodModel selectedFood = food.selectFood;
+    List<dynamic> foodMeat = jsonDecode(selectedFood.foodMeat);
     List<dynamic> foodOption = jsonDecode(selectedFood.foodOption);
     List<dynamic> foodNoodle = jsonDecode(selectedFood.foodNoodles);
-    List<dynamic> foodExtra = jsonDecode(selectedFood.foodExtra);
+    // List<dynamic> foodExtra = jsonDecode(selectedFood.foodExtra);
 
     var basket = Provider.of<BasketProvider>(context, listen: true);
 
@@ -131,6 +129,9 @@ class FoodScreen extends StatelessWidget {
             if (foodNoodle.isEmpty) {
               basket.setFoodNoodle('');
             }
+            if (foodMeat.isEmpty) {
+              basket.setFoodMeat('');
+            }
 
             basket.addFoodToBasket();
             basket.resetItem();
@@ -141,6 +142,7 @@ class FoodScreen extends StatelessWidget {
           child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               width: MediaQuery.of(context).size.width * 0.6,
+              // width: 150,
               height: 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,17 +155,9 @@ class FoodScreen extends StatelessWidget {
                   //     size: 25,
                   //   ),
                   // ),
-                  Text('เพิ่มในตระกร้า',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      )),
+                  Text('เพิ่มในตระกร้า', style: textStyleTitleWhite),
                   Spacer(),
-                  Text(basket.foodPrice.toString(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      )),
+                  Text(basket.foodPrice.toString(), style: textStyleTitleWhite)
                 ],
               )),
         ),

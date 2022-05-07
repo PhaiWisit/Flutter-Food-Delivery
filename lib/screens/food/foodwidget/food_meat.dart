@@ -11,9 +11,6 @@ import '../../../providers/food_provider.dart';
 class FoodMeatItem extends StatefulWidget {
   const FoodMeatItem({Key? key}) : super(key: key);
 
-  // final List foodMeat;
-  // final List _foodMeatSelected;
-
   @override
   State<FoodMeatItem> createState() => _FoodMeatItemState();
 }
@@ -90,7 +87,7 @@ class _FoodMeatItemState extends State<FoodMeatItem> {
                 contentPadding: EdgeInsets.all(0),
                 value: foodMeat,
                 groupValue: selectedfoodMeat,
-                title: Text(foodMeat),
+                title: Text(foodMeat, style: textStyleNormal),
                 onChanged: (current) {
                   setSelectedFoodMeat(current as dynamic);
                   basket.setFoodMeat(current);

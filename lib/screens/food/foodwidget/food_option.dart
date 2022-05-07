@@ -72,7 +72,7 @@ class _FoodOptionItemState extends State<FoodOptionItem> {
                           Expanded(
                             child: CheckboxListTile(
                                 activeColor: Colors.green,
-                                title: Text(key),
+                                title: Text(key, style: textStyleNormal),
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
                                 contentPadding: EdgeInsets.all(0),
@@ -98,7 +98,7 @@ class _FoodOptionItemState extends State<FoodOptionItem> {
                                   basket.setFoodOption(textFoodOption);
                                 }),
                           ),
-                          Text('+10 บาท')
+                          Text('+10 บาท', style: textStyleNormal)
                         ],
                       ),
                     )

@@ -30,8 +30,7 @@ class FoodMoreDetail extends StatelessWidget {
 
   Widget _buildTextField(BuildContext context) {
     var basket = Provider.of<BasketProvider>(context, listen: true);
-    // basket.setFoodDetail('');
-    final maxLines = 3;
+    const maxLines = 3;
 
     return Container(
       margin: EdgeInsets.all(12),

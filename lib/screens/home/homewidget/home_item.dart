@@ -5,6 +5,7 @@ import 'package:flutter_pos_kawpun/screens/food/food_screen.dart';
 import 'package:flutter_pos_kawpun/utils/app_log.dart';
 import 'package:flutter_pos_kawpun/utils/text_style.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../providers/basket_provider.dart';
 
@@ -18,8 +19,7 @@ class HomeItem extends StatefulWidget {
 class _HomeItemState extends State<HomeItem> {
   @override
   Widget build(BuildContext context) {
-    // FoodProvider foodMenu = Provider.of<FoodProvider>(context, listen: false);
-
+    // FoodProvider foodMenu = Provider.of<FoodProvider>(context, listen: false)
     return Padding(
       padding: const EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 0),
       child: Column(
@@ -34,21 +34,21 @@ class _HomeItemState extends State<HomeItem> {
               children: [
                 Consumer<FoodProvider>(builder: ((context, foodMenu, child) {
                   if (foodMenu.filterStatus[FilterOption.Favorites] == true) {
-                    return Text('รายการโปรด');
+                    return Text('รายการโปรด', style: textStyleNormal);
                   }
                   if (foodMenu.filterStatus[FilterOption.Dishes] == true) {
-                    return Text('เป็นกับข้าว');
+                    return Text('เป็นกับข้าว', style: textStyleNormal);
                   }
                   if (foodMenu.filterStatus[FilterOption.Onedish] == true) {
-                    return Text('อาหารจานเดียว');
+                    return Text('อาหารจานเดียว', style: textStyleNormal);
                   }
                   if (foodMenu.filterStatus[FilterOption.Noodle] == true) {
-                    return Text('เมนูเส้น');
+                    return Text('เมนูเส้น', style: textStyleNormal);
                   }
                   if (foodMenu.filterStatus[FilterOption.Yum] == true) {
-                    return Text('เมนูยำ');
+                    return Text('เมนูยำ', style: textStyleNormal);
                   }
-                  return Text('รายการอาหารทั้งหมด');
+                  return Text('รายการอาหารทั้งหมด', style: textStyleNormal);
                 })),
                 Spacer(),
                 Consumer<FoodProvider>(
@@ -72,7 +72,10 @@ class _HomeItemState extends State<HomeItem> {
                               foodMenu: foodMenu,
                               filterOption: FilterOption.Dishes,
                               canExpand: false),
-                          _buildListMenu(foodMenu.foodMenu1)
+                          _buildListMenu(foodMenu.foodMenu1, 1),
+                          SizedBox(
+                            height: 60,
+                          )
                         ],
                       );
                     } else if (foodMenu.filterStatus[FilterOption.Dishes] ==
@@ -84,7 +87,10 @@ class _HomeItemState extends State<HomeItem> {
                               foodMenu: foodMenu,
                               filterOption: FilterOption.Dishes,
                               canExpand: false),
-                          _buildListMenu(foodMenu.foodMenu2)
+                          _buildListMenu(foodMenu.foodMenu2, 2),
+                          SizedBox(
+                            height: 60,
+                          )
                         ],
                       );
                     } else if (foodMenu.filterStatus[FilterOption.Noodle] ==
@@ -96,7 +102,10 @@ class _HomeItemState extends State<HomeItem> {
                               foodMenu: foodMenu,
                               filterOption: FilterOption.Noodle,
                               canExpand: false),
-                          _buildListMenu(foodMenu.foodMenu3)
+                          _buildListMenu(foodMenu.foodMenu3, 3),
+                          SizedBox(
+                            height: 60,
+                          )
                         ],
                       );
                     } else if (foodMenu.filterStatus[FilterOption.Yum] ==
@@ -108,13 +117,26 @@ class _HomeItemState extends State<HomeItem> {
                               foodMenu: foodMenu,
                               filterOption: FilterOption.Yum,
                               canExpand: false),
-                          _buildListMenu(foodMenu.foodMenu4)
+                          _buildListMenu(foodMenu.foodMenu4, 4),
+                          SizedBox(
+                            height: 60,
+                          )
                         ],
                       );
                     } else if (foodMenu.filterStatus[FilterOption.Favorites] ==
                         true) {
                       return Column(
-                        children: [Text('favorite')],
+                        children: [
+                          _buildLable(
+                              title: 'รายการโปรด',
+                              foodMenu: foodMenu,
+                              filterOption: FilterOption.Yum,
+                              canExpand: false),
+                          _buildListMenu(foodMenu.foodFavorite, 5),
+                          SizedBox(
+                            height: 60,
+                          )
+                        ],
                       );
                     } else {
                       return Column(
@@ -125,7 +147,7 @@ class _HomeItemState extends State<HomeItem> {
                               filterOption: FilterOption.Onedish,
                               canExpand: true),
                           foodMenu.expandStatus[FilterOption.Onedish] == true
-                              ? _buildListMenu(foodMenu.foodMenu1)
+                              ? _buildListMenu(foodMenu.foodMenu1, 1)
                               : SizedBox(),
                           Divider(),
                           _buildLable(
@@ -134,7 +156,7 @@ class _HomeItemState extends State<HomeItem> {
                               filterOption: FilterOption.Dishes,
                               canExpand: true),
                           foodMenu.expandStatus[FilterOption.Dishes] == true
-                              ? _buildListMenu(foodMenu.foodMenu2)
+                              ? _buildListMenu(foodMenu.foodMenu2, 2)
                               : SizedBox(),
                           Divider(),
                           _buildLable(
@@ -143,7 +165,7 @@ class _HomeItemState extends State<HomeItem> {
                               filterOption: FilterOption.Noodle,
                               canExpand: true),
                           foodMenu.expandStatus[FilterOption.Noodle] == true
-                              ? _buildListMenu(foodMenu.foodMenu3)
+                              ? _buildListMenu(foodMenu.foodMenu3, 3)
                               : SizedBox(),
                           Divider(),
                           _buildLable(
@@ -152,9 +174,12 @@ class _HomeItemState extends State<HomeItem> {
                               filterOption: FilterOption.Yum,
                               canExpand: true),
                           foodMenu.expandStatus[FilterOption.Yum] == true
-                              ? _buildListMenu(foodMenu.foodMenu4)
+                              ? _buildListMenu(foodMenu.foodMenu4, 4)
                               : SizedBox(),
                           Divider(),
+                          SizedBox(
+                            height: 60,
+                          )
                         ],
                       );
                     }
@@ -163,6 +188,22 @@ class _HomeItemState extends State<HomeItem> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void onSetFavoriteLocal(List<String> listId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('favoriteId', listId);
+    // final List<String> favoriteId = prefs.getStringList('favoriteId') ?? [''];
+    // if (favoriteId.isNotEmpty) {
+    //   for (int i = 0; i < favoriteId.length; i++) {
+    //     AppLog.info(favoriteId[i]);
+    //   }
+    // }
   }
 
   Widget _buildPopupMenu(BuildContext context, FoodProvider foodMenu) {
@@ -184,43 +225,42 @@ class _HomeItemState extends State<HomeItem> {
       },
       child: Row(
         children: [
-          Text(
-            'หมวดหมู่',
-            style: textStyleSmall,
-          ),
+          Text('หมวดหมู่', style: textStyleSmall),
           Icon(Icons.expand_more)
         ],
       ),
       itemBuilder: (_) => [
         PopupMenuItem(
-          child: Text('ทั้งหมด'),
+          child: Text('ทั้งหมด', style: textStyleNormal),
           value: FilterOption.All,
         ),
         PopupMenuItem(
-          child: Text('รายการโปรด'),
+          child: Text('รายการโปรด', style: textStyleNormal),
           value: FilterOption.Favorites,
         ),
         PopupMenuItem(
-          child: Text('อาหารจานดียว'),
+          child: Text('อาหารจานดียว', style: textStyleNormal),
           value: FilterOption.Onedish,
         ),
         PopupMenuItem(
-          child: Text('เป็นกับข้าว'),
+          child: Text('เป็นกับข้าว', style: textStyleNormal),
           value: FilterOption.Dishes,
         ),
         PopupMenuItem(
-          child: Text('เมนูเส้น'),
+          child: Text('เมนูเส้น', style: textStyleNormal),
           value: FilterOption.Noodle,
         ),
         PopupMenuItem(
-          child: Text('เมนูยำ'),
+          child: Text('เมนูยำ', style: textStyleNormal),
           value: FilterOption.Yum,
         ),
       ],
     );
   }
 
-  SingleChildScrollView _buildListMenu(List<FoodModel> foodMenuType) {
+  SingleChildScrollView _buildListMenu(
+      List<FoodModel> foodMenuType, int foodType) {
+    FoodProvider foodPro = Provider.of<FoodProvider>(context, listen: true);
     return SingleChildScrollView(
       physics: ScrollPhysics(),
       child: ListView.separated(
@@ -252,13 +292,27 @@ class _HomeItemState extends State<HomeItem> {
                                 NetworkImage(foodMenuType[index].foodImageUrl),
                             fit: BoxFit.cover)),
                   ),
-                  title: Text(foodMenuType[index].foodName),
-                  subtitle:
-                      Text('เริ่มต้น ${foodMenuType[index].foodPrice} บาท'),
+                  title: Text(foodMenuType[index].foodName,
+                      style: textStyleNormal),
+                  subtitle: Text(
+                      'เริ่มต้น ${foodMenuType[index].foodPrice} บาท',
+                      style: textStyleSmall),
                   trailing: IconButton(
-                    icon: Icon(Icons.favorite_border_sharp),
+                    icon: Icon(
+                      foodMenuType[index].isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border_sharp,
+                      color: Colors.red.shade400,
+                    ),
                     onPressed: () {
-                      AppLog.tap('set favorite this menu');
+                      if (foodMenuType[index].isFavorite) {
+                        foodPro.removeFoodFavorite(
+                            foodMenuType[index].foodId, foodType);
+                      } else {
+                        foodPro.addFoodFavorite(
+                            foodMenuType[index].foodId, foodType);
+                      }
+                      onSetFavoriteLocal(foodPro.favoriteId);
                     },
                   )),
             );
@@ -266,6 +320,17 @@ class _HomeItemState extends State<HomeItem> {
         },
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    FoodProvider foodPro = Provider.of<FoodProvider>(context, listen: true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Padding _buildLable(
@@ -290,19 +355,19 @@ class _HomeItemState extends State<HomeItem> {
           children: [
             Text(
               title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: textStyleNormalBold,
             ),
             Builder(builder: (context) {
               if (canExpand) {
                 if (foodMenu.expandStatus[filterOption] == true) {
                   return Text(
                     'collapse',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                    style: textStyleSmallGrey,
                   );
                 } else {
                   return Text(
                     'expand',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                    style: textStyleSmallGrey,
                   );
                 }
               } else {

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element, unnecessary_brace_in_string_interps
+
 import 'dart:developer';
 
 class AppLog {
@@ -31,5 +33,9 @@ class AppLog {
 
   static info(String message) {
     _logBlue('Information : ${message}');
+  }
+
+  static success(String message) {
+    _logGreen('Success : ${message}');
   }
 }

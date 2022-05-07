@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+class WebDemo {
+  static const double webDemoWidth = 400;
+  static const double webDemoHeight = 800;
+}
+
 class WebDemoView extends StatelessWidget {
   const WebDemoView({Key? key, required this.child}) : super(key: key);
   final Widget child;
@@ -32,8 +37,8 @@ class WebDemoView extends StatelessWidget {
         ),
         Center(
           child: Container(
-            height: 800,
-            width: 400,
+            height: WebDemo.webDemoHeight,
+            width: WebDemo.webDemoWidth,
             foregroundDecoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/images/phone.png'),
