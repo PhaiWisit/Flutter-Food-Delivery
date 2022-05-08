@@ -66,7 +66,8 @@ class BasketScreen extends StatelessWidget {
                 onPressed: basket.sendLoading
                     ? null
                     : () {
-                        if (basket.houseNumber.isNotEmpty) {
+                        if (basket.houseNumber.isNotEmpty &&
+                            basket.basketCount != 0) {
                           orderNow(context);
                         } else if (basket.basketCount == 0) {
                           const snackBar = SnackBar(
